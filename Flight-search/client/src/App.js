@@ -1,23 +1,25 @@
 import logo from './logo.svg';
 import './App.css';
+import TopNav from './component/TopNav';
+import LandingView from './component/LandingView';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+      <header>
+        <div style ={{minHeight:"10vh", width:'100%', backgroundColor:'rgb(25 118 210 / 55%)'}}></div>
+        <TopNav />
       </header>
+
+      <div className='main-body'>
+      <h1>Welcome to my Booking site</h1>
+
+       <LandingView/>
+      </div>
+
+      <footer>
+          <div style ={{minHeight:"10vh", width:'100%', backgroundColor:'rgb(25 118 210 / 55%)'}}></div>
+      </footer>
     </div>
   );
 }
