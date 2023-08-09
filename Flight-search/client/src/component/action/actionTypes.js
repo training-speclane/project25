@@ -1,0 +1,1 @@
+ export const SEARCH_FLIGHTS = "SEARCH_FLIGHTS";
