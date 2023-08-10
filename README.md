@@ -1,1 +1,3 @@
-# project25
+# Projects
+
+This contains various projects
