@@ -34,6 +34,7 @@ public class Flight {
     @Column(name = "aircraft")
     private String aircraft;
 
+
     public Integer getFlid() {
         return flid;
     }
@@ -91,6 +92,7 @@ public class Flight {
     }
 
 
+  
 
     
     

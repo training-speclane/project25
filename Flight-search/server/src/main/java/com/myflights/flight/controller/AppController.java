@@ -23,6 +23,8 @@ public class AppController {
 
     @Autowired
     private FlightService flightService;
+    
+    @Autowired
     private BookingsService bookingsService;
 
 
@@ -58,10 +60,25 @@ public class AppController {
         //1. Perform vbalidations if needed
        
        //2. save the booking to the DB
-        bookingsService.saveBooking(booking);
-        resp.setStatusCode(HttpStatus.OK);
-        resp.setMessageType("SUCCESS");
-        resp.setMessage("Booking has been made and you are good to fly!");
+        
+       Flight flight =  flightService.findFlightById(booking.getFlid());
+
+       if(flight != null){
+
+          booking.setAmount(flight.getCost());
+          booking.setDest(flight.getDest());
+          booking.setOrigin(flight.getOrigin());
+          booking.setTravelDate(flight.getDepartureDate());
+        
+          bookingsService.saveBooking(booking);
+          resp.setStatusCode(HttpStatus.OK);
+          resp.setMessageType("SUCCESS");
+          resp.setMessage("Booking has been made and you are good to fly!");
+       }else{
+         resp.setStatusCode(HttpStatus.BAD_REQUEST);
+         resp.setMessage("Flight does not exist");
+         resp.setMessageType("ERROR");
+       }
         //return flights;
      } catch (Exception ex){
          resp.setStatusCode(HttpStatus.BAD_REQUEST);

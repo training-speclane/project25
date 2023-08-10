@@ -33,7 +33,9 @@ public void saveFlight(Flight flight){
     return repo.findByOriginAndDest(origin, dest);
  }
  
-
+  public Flight findFlightById (int flid) {
+     return repo.findByFlid(flid);
+  }
 
 
 }

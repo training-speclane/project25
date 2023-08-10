@@ -31,8 +31,10 @@ CREATE TABLE `bookings` (
   `dest` varchar(45) DEFAULT NULL,
   `travel_date` varchar(45) DEFAULT NULL,
   `amount` varchar(45) DEFAULT NULL,
+  `seats` varchar(45) DEFAULT NULL,
+  `dob` date DEFAULT NULL,
   PRIMARY KEY (`bkid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +43,7 @@ CREATE TABLE `bookings` (
 
 LOCK TABLES `bookings` WRITE;
 /*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
+INSERT INTO `bookings` VALUES (1,'wwew','cvdf',4,'CLT','JFK','2023-08-09','230','C3,B3','2023-08-23'),(2,'wwew','ewew',4,'CLT','JFK','2023-08-09','230','B2,B3,D4','2023-08-16'),(3,'aasa','Does',4,'CLT','JFK','2023-08-09','230','D4,D1','2023-08-23');
 /*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-08-08 21:13:53
+-- Dump completed on 2023-08-09 20:55:34

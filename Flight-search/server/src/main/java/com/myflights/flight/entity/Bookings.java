@@ -40,6 +40,12 @@ public class Bookings {
 
      @Column(name = "amount")
      private String amount;
+    
+    @Column(name = "seats")
+    private String seats;
+
+    @Column(name = "dob")
+    private String dob;
 
     public Integer getBkid() {
         return bkid;
@@ -103,6 +109,22 @@ public class Bookings {
 
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    public String getSeats() {
+        return seats;
+    }
+
+    public void setSeats(String seats) {
+        this.seats = seats;
+    }
+
+    public String getDob() {
+        return dob;
+    }
+
+    public void setDob(String dob) {
+        this.dob = dob;
     }
 
 
