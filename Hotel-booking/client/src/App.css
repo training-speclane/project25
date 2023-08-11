@@ -1,0 +1,15 @@
+.main-body {
+  min-height: 80vh;
+  padding: 15px;
+  text-align: center;
+}
+
+
+.inner-search-form {
+  padding: 10px;
+}
+
+
+h3 {
+  color : green
+}
