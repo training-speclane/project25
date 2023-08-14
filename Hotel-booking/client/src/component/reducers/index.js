@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
-import flightReducer from "./flightReducer";
+import hotelReducer from "./hotelReducer";
 
 
 export default combineReducers({
-    search : flightReducer
+    search : hotelReducer
 })

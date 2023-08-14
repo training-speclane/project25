@@ -1,4 +1,4 @@
-package com.myhotels.hotel.response;
+package com.myhotels.hotels.response;
 
 import org.springframework.http.HttpStatus;
 

@@ -1,4 +1,4 @@
-package com.myhotels.hotel.flight;
+package com.myhotels.hotels;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

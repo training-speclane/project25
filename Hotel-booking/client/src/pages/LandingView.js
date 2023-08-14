@@ -8,26 +8,27 @@ import TextField from '@mui/material/TextField';
 import {Container} from '@mui/material';
 import {Box} from '@mui/material';
 import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector} from 'react-redux';
-import { searchFlights } from '../component/action/flight-actions';
+import {  searchHotels } from '../component/action/hotel-actions';
 
 
 
 
 export default function LandingView (props) {
 
-
-    const [travelDate, setTravelDate] = useState(new Date());
-    const [returnDate, setReturnDate] = useState(new Date());
     const {searchResults} = useSelector(state => state.search)
     const navigate =  useNavigate();
 
     const [formData, setFormData] = useState({
-        origin: "",
-        dest : "",
-        date : new Date(),
-        returnDate : new Date(),
+        hotelName: "",
+        checkinDate : new Date(),
+        checkoutDate : new Date(),
         numTravellers : ""
     })
 
@@ -44,11 +45,11 @@ export default function LandingView (props) {
     const handleSearch = () => {
 
       const info =  {};
-      info.origin = formData.origin;
-      info.dest = formData.dest;
-      info.date = formData.date;
+      info.hotelName = formData.hotelName;
+      info.checkinDate = formData.checkinDate;
+      info.checkoutDate = formData.checkoutDate;
 
-        dispatch(searchFlights(info)).then(resp => {
+        dispatch(searchHotels(info)).then(resp => {
           console.log("request complete");
         })
     }
@@ -67,19 +68,61 @@ export default function LandingView (props) {
         }
 
         return (
-            searchResults?.responseData.map((flight, index) => (
+            searchResults?.responseData.map((hotel, index) => (
                 <Fragment key={index}>
-                    <Paper  elevation={3}>
-                        <div style={{padding:'10px'}}>
-                            <div>Time: {flight.departureTime}</div>
-                            <div>Cost :  {flight.cost} </div>
-                            <div>Aircraft : {flight.aircraft}</div>
-                        </div>
-
-                        <div><Button onClick={() => handleBooking(flight)} variant='outlined'>Book</Button></div>
-                        <br/>
-                    </Paper>
-                  <br/>
+                   <Container maxWidth="xl">
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Grid container spacing={2}>
+                          <Grid item xs={4}>
+                            <Paper elevation={6} style={{minHeight:'60vh'}}> 
+                            xs=4
+                            </Paper>
+                          </Grid>
+                      
+                          <Grid item xs={8}>
+                            <Paper elevation={6} style={{minHeight:'60vh'}}> 
+                                <h2>{hotel.hotelName}</h2>
+                                  <strong>Ammentities</strong> : {hotel.hotelAmmenities}
+                                   <br/><br/>
+                                  <Stack direction="row" spacing={3}>
+                                      {
+                                        hotel.rooms.map((room, index) => (
+                                          
+                                              <React.Fragment>
+                                                  <Card sx={{ maxWidth: 345 }}>
+                                                      <CardMedia
+                                                            component="img"
+                                                            alt={"images"}
+                                                            height="100"
+                                                            image={room.photos[0].imageURL}
+                                                        />    
+                                                      <CardContent>
+                                                        <Typography gutterBottom variant="h5" component="div">
+                                                        {room.roomName}
+                                                        </Typography>
+                                                        <div style={{textAlign:'left'}}>
+                                                          <div><strong>Bed type : </strong>{room.bedType}</div>  
+                                                          <div><strong>Has Airconditioning  : </strong>{room.hasAc === 'Y' ? 'YES': 'NO'}</div> 
+                                                          <div><strong>Has Microwave : </strong>{room.hasMicrowave === 'Y' ? 'YES': 'NO'}</div> 
+                                                          <div><strong>Has hasRefrigerator : </strong>{room.hasRefrigerator === 'Y' ? 'YES': 'NO'}</div> 
+                                                          <div><strong>Number of Beds : </strong>{room.numBeds}</div>                 
+                                                        </div>
+                                                      </CardContent>
+                                                      <CardActions>
+                                                        <Button size="small">Share</Button>
+                                                        <Button variant="contained" color="success">Book now</Button>
+                                                      </CardActions>
+                                                    </Card>
+                                              </React.Fragment>
+                                          )
+                                        )
+                                      }
+                                  </Stack>
+                            </Paper>
+                          </Grid>
+                        </Grid>
+                    </Box>
+                </Container>  
                </Fragment>
             ))
         )
@@ -102,7 +145,8 @@ export default function LandingView (props) {
                             label="Where are you staying?" 
                             variant="outlined"
                             // helperText = {firstNameError}
-                            name = "origin"
+                            name = "hotelName"
+                            value =  {formData.hotelName}
                             onChange={handleInputChange}
                         />
                         <TextField 
@@ -110,27 +154,28 @@ export default function LandingView (props) {
                                 label="Checkin Date" 
                                 variant="outlined"
                                 type ="date"
-                                value = {formData.date}
-                                name = "date"
+                                value = {formData.checkinDate}
+                                name = "checkinDate"
                                 onChange={handleInputChange}
                                 // helperText = {firstNameError}
                             />
 
                             <TextField 
                                 //onChange={(event) =>  setReturnDate(event.target.value)}  
-                                label="Chechout Date" 
+                                label="Checkout Date" 
                                 variant="outlined"
                                 type = "date"
-                                value = {formData.returnDate}
+                                value = {formData.checkoutDate}
                                 onChange={handleInputChange}
                                 // helperText = {firstNameError}
-                                name = "returnDate"
+                                name = "checkoutDate"
                             />
                             <TextField 
                                 // onChange={(event) =>  handleFirstNameChange(event.target.value)}  
                                 label="# Guests" 
                                 variant="outlined"
                                 onChange={handleInputChange}
+                                value = {formData.numTravellers}
                                 // helperText = {firstNameError}
                                 name = "numTravellers"
                             />
@@ -147,23 +192,7 @@ export default function LandingView (props) {
               </Container>
              <div>
                 <br/>
-              <Container maxWidth="xl">
-              <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                    <Grid item xs={4}>
-                      <Paper elevation={6} style={{minHeight:'60vh'}}> 
-                       xs=4
-                      </Paper>
-                    </Grid>
-                
-                    <Grid item xs={8}>
-                    <Paper elevation={6} style={{minHeight:'60vh'}}> 
-                       xs=8
-                      </Paper>
-                    </Grid>
-                  </Grid>
-                </Box>
-             </Container>
+               {handleDataDisplay()}
              <Stack direction="column" justifyContent="center">
                 <Container maxWidth="xl">
                     <Paper elevation={6}> 

@@ -1,4 +1,4 @@
-package com.myhotels.hotel.config;
+package com.myhotels.hotels.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;

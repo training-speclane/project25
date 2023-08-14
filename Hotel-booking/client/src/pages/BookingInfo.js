@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveBooking } from '../component/action/flight-actions';
+import { saveBooking } from '../component/action/hotel-actions';
 
 
 export default function BookingInfo () {

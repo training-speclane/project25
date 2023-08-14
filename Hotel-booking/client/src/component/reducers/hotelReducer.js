@@ -1,9 +1,9 @@
-import { SAVE_BOOKING, SEARCH_FLIGHTS } from "../action/actionTypes";
+import { SAVE_BOOKING, SEARCH_HOTELS } from "../action/actionTypes";
 
 export default (state = {} , action) => {
 
    switch(action.type){
-    case SEARCH_FLIGHTS : 
+    case SEARCH_HOTELS : 
         return {...state, searchResults:action.payload}
     case SAVE_BOOKING : 
         return {...state, savedBooking:action.payload}    
