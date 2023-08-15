@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.myhotels.hotels.entity.Bookings;
 import com.myhotels.hotels.entity.Hotels;
+import com.myhotels.hotels.entity.Rooms;
 import com.myhotels.hotels.response.ObjectResponse;
 import com.myhotels.hotels.service.BookingService;
 import com.myhotels.hotels.service.HotelService;
@@ -58,6 +59,29 @@ public class AppController {
      }
      return new ResponseEntity<ObjectResponse>(resp, resp.getStatusCode());
     }
+
+   
+     @GetMapping("/find-room/{rmid}") 
+      public ResponseEntity<ObjectResponse>findRoomById(@PathVariable() String rmid) {
+      ObjectResponse resp =  new ObjectResponse();
+         try {
+            
+            Rooms room = roomsService.findRoomById(rmid);
+            resp.setResponseData(room);
+            resp.setStatusCode(HttpStatus.OK);
+            resp.setMessageType("SUCCESS");
+            //return flights;
+         } catch (Exception ex){
+               resp.setStatusCode(HttpStatus.BAD_REQUEST);
+               resp.setMessage("Error occured on the server");
+               resp.setMessageType("ERROR");
+               ex.printStackTrace();
+         }
+     return new ResponseEntity<ObjectResponse>(resp, resp.getStatusCode());
+    }
+
+
+
 
 
    //@PostMapping("/save-booking") 

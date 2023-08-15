@@ -15,5 +15,6 @@ public interface RoomsRepository extends JpaRepository<Rooms, Integer> {
   List<Rooms> findByAvailableDateBetween(String checkinDate, String checkoutDate);
   List<Rooms> findByHasAc(String hasAc);
   List<Rooms> findByHasMicrowave(String hasMicrowave);
+  Rooms  findByRmid(int rmid);
     
 }

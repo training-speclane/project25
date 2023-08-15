@@ -4,6 +4,8 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import FormGroup from '@mui/material/FormGroup';
+import Checkbox from '@mui/material/Checkbox';
 import TextField from '@mui/material/TextField';
 import {Container} from '@mui/material';
 import {Box} from '@mui/material';
@@ -54,10 +56,23 @@ export default function LandingView (props) {
         })
     }
 
-    const handleBooking = (flightInfo) => {
+    const handleBooking = (room) => {
 
-        navigate(`/book-flight/${flightInfo.flid}`)
+        navigate(`/book-hotel/${room.rmid}`)
         //console.log("send the followinf flight info to server side", flightInfo);
+    }
+
+
+    const renderFilters = () => {
+
+      return(
+        <FormGroup>
+            <FormControlLabel control={<Checkbox  color="success"/>} label="Air condition" />
+            <FormControlLabel control={<Checkbox  color="success" />} label="Microwave" />
+            <FormControlLabel control={<Checkbox  color="success" />} label="Refrigerator" />
+            <FormControlLabel control={<Checkbox  color="success" />} label="AC" />
+       </FormGroup>
+      )
     }
 
 
@@ -75,7 +90,11 @@ export default function LandingView (props) {
                       <Grid container spacing={2}>
                           <Grid item xs={4}>
                             <Paper elevation={6} style={{minHeight:'60vh'}}> 
-                            xs=4
+                              <h4>Filters</h4>
+                                <div className="filters-container">
+                                  {renderFilters()}
+                                </div>
+                              <Button variant='contained' color='primary'>Apply Filters</Button>
                             </Paper>
                           </Grid>
                       
@@ -110,7 +129,7 @@ export default function LandingView (props) {
                                                       </CardContent>
                                                       <CardActions>
                                                         <Button size="small">Share</Button>
-                                                        <Button variant="contained" color="success">Book now</Button>
+                                                        <Button onClick={() =>  handleBooking(room)} variant="contained" color="success">Book now</Button>
                                                       </CardActions>
                                                     </Card>
                                               </React.Fragment>

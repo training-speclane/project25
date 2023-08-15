@@ -1,33 +1,53 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { Backdrop, Button, Grid, Paper, Stack } from '@mui/material';
-import { AirlineSeatIndividualSuite, AirlineSeatLegroomExtra } from '@mui/icons-material';
+import { AirlineSeatIndividualSuite, AirlineSeatLegroomExtra, RocketOutlined } from '@mui/icons-material';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
 import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { saveBooking } from '../component/action/hotel-actions';
+import { saveBooking, findRoomById } from '../component/action/hotel-actions';
 
 
 export default function BookingInfo () {
 
     const dispatch = useDispatch()
-    const {flid} = useParams();
+    const {rmid} = useParams();
 
-    const [selectedSeats, setSelectedSeats] = useState([]);
+
     const [loading, setLoading] = useState(false);
-    const {savedBooking} = useSelector(state => state.search);
+    const {savedBooking, selectedRoom} = useSelector(state => state.search);
     
+
+    useEffect(() => {
+      if(rmid) {
+         dispatch(findRoomById(rmid));
+      }
+
+    }, [])
+
+
+
+
     
     const [formData, setFormData] = useState({
         firstName: "",
         lastName : "",
         dob : new Date()
     })
+
+
+
+
 
 
     const handleInputChange = event => {
@@ -40,36 +60,18 @@ export default function BookingInfo () {
 
 
 
-    const handleSeatClick = (seat) => {
-      if (selectedSeats.includes(seat)) {
-        setSelectedSeats(selectedSeats.filter(s => s !== seat));
-      } else {
-        setSelectedSeats([...selectedSeats, seat]);
-      }
-    };
+    
 
     const handleBookingContinue =  () => {
 
         setLoading(true);
-        console.log(selectedSeats, formData, flid);
-
-
-    // String firstName;
-    // String lastName;
-    // Integer flid;
-    // String origin;
-    // String dest;
-    // String travelDate;
-    // String amount;
-    // String seats;
-    // String dob
+        console.log(formData, rmid);
 
         let formValues =  {};
         formValues.firstName =  formData.firstName;
         formValues.lastName =  formData.lastName;
         formValues.dob = formData.dob;
-        formValues.seats =  selectedSeats.join(',');
-        formValues.flid =  flid;
+        formValues.rmid =  rmid;
 
 
         dispatch(saveBooking(formValues)).then(() => {
@@ -77,42 +79,56 @@ export default function BookingInfo () {
         });
 
     }
-  
-    const renderSeat = (seatNumber) => {
-      const isSelected = selectedSeats.includes(seatNumber);
-  
-      return (
-        <Button
-          variant={isSelected ? 'contained' : 'outlined'}
-          startIcon={isSelected ? <AirlineSeatIndividualSuite /> : <AirlineSeatLegroomExtra />}
-          onClick={() => handleSeatClick(seatNumber)}
-        >
-          {seatNumber}
-        </Button>
-      );
-    };
-  
 
-    const renderAirlineSeatsView =  () => {
 
-        return(
-            <div>
-                <Grid container spacing={2}>
-                {Array.from({ length: 6 }, (_, row) => (
-                    <Grid container item justifyContent="center" key={row}>
-                    {Array.from({ length: 5 }, (_, col) => (
-                        <Grid item key={col}>
-                        <Paper elevation={3} sx={{ p: 2 }}>
-                            {renderSeat(`${String.fromCharCode(65 + row)}${col + 1}`)}
-                        </Paper>
-                        </Grid>
-                    ))}
-                    </Grid>
-                ))}
-                </Grid>
-          </div>
-        )
+    const renderRoomInfo = () => {
+
+      console.log("room info is ", selectedRoom);
+
+      let room;
+
+      if(selectedRoom){
+        room =  selectedRoom.responseData;
+
+      }
+
+      if(!room){
+        return null;
+      }
+
+      return(
+        <React.Fragment>
+            <h3>{room.roomName}</h3>
+
+            <Card>
+              <CardMedia
+                    component="img"
+                    alt={"images"}
+                    height="100"
+                    image={room.photos[1].imageURL}
+                />    
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                {room.roomName}
+                </Typography>
+                <div style={{textAlign:'left'}}>
+                  <div><strong>Bed type : </strong>{room.bedType}</div>  
+                  <div><strong>Has Airconditioning  : </strong>{room.hasAc === 'Y' ? 'YES': 'NO'}</div> 
+                  <div><strong>Has Microwave : </strong>{room.hasMicrowave === 'Y' ? 'YES': 'NO'}</div> 
+                  <div><strong>Has hasRefrigerator : </strong>{room.hasRefrigerator === 'Y' ? 'YES': 'NO'}</div> 
+                  <div><strong>Number of Beds : </strong>{room.numBeds}</div>                 
+                </div>
+              </CardContent>
+              <CardActions>
+                <Button size="small">Share</Button>
+
+              </CardActions>
+            </Card>
+           
+        </React.Fragment>
+      )
     }
+  
 
 
     const renderPersonalInfo =  () => {
@@ -186,12 +202,13 @@ export default function BookingInfo () {
 
              <h3>Enter your info to continue Booking</h3>
 
-            {renderAirlineSeatsView()}
+            
+             {renderRoomInfo()}
 
              {renderPersonalInfo()}
              
              <br/>
-             <Button onClick={() =>  handleBookingContinue()} variant='contained' >Book this flight</Button>
+             <Button onClick={() =>  handleBookingContinue()} variant='contained' >Book this room</Button>
 
              <Backdrop open = {loading} />
             </React.Fragment>

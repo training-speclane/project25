@@ -16,8 +16,8 @@ export default function AppRoutes(props) {
      <BrowserRouter>
          <Routes> 
             <Route path='/' element = {<LandingView/>} />
-            <Route path='/view-flight-info' element = {<FlightInfo/>} />
-            <Route path='/book-flight/:flid' element = {<BookingInfo/>} />
+            <Route path='/view-hotel-info' element = {<FlightInfo/>} />
+            <Route path='/book-hotel/:rmid' element = {<BookingInfo/>} />
          </Routes>
      </BrowserRouter>
 
